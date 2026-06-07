@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ActivityIndicator, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator, TouchableOpacity, Image, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerItemList, DrawerContentScrollView } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -7,7 +7,8 @@ import Toast from 'react-native-toast-message';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import ForgotPassword from './screens/customer/ForgotPassword';
-import LocationScreen from './screens/customer/LocationScreen';
+import LocationScreenNative from './screens/customer/LocationScreen';
+import LocationScreenWeb from './screens/customer/LocationScreen.web';
 import Signup from './screens/customer/Signup';
 import Signin from './screens/customer/Signin';
 import Signout from './screens/Signout';
@@ -37,6 +38,7 @@ import { auth } from './firebaseconfig';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const LocationScreen = Platform.OS === 'web' ? LocationScreenWeb : LocationScreenNative;
 
 function RootStack() {
   return (

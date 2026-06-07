@@ -1,6 +1,6 @@
 import { launchImageLibraryAsync, requestMediaLibraryPermissionsAsync, MediaTypeOptions } from "expo-image-picker";
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Alert, Platform } from "react-native";
 import DropDownPicker from 'react-native-dropdown-picker';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { db, storage } from '../../firebaseconfig';
@@ -38,6 +38,11 @@ function AddProduct() {
     }
 
     async function pickImage() {
+        if (Platform.OS === 'web') {
+            Alert.alert("Not supported on web", "Upload images from the native app or add a web file picker later.");
+            return;
+        }
+
         const { status } = await requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
             Alert.alert("Permission Denied", "You need to grant access to your media library.");

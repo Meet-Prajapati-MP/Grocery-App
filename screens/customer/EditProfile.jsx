@@ -15,6 +15,7 @@ import { auth } from '../../firebaseconfig';
 import { updateProfile } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'; 
+import { Platform } from 'react-native';
 
 const EditProfile = ({ navigation }) => {
   const user = auth.currentUser;
@@ -53,6 +54,11 @@ const EditProfile = ({ navigation }) => {
   }, [user]);
 
   const pickImage = async () => {
+    if (Platform.OS === 'web') {
+      Alert.alert('Not supported on web', 'Profile image upload is available in the native app only.');
+      return;
+    }
+
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       Alert.alert('Permission Denied', 'Camera roll permission is required!');

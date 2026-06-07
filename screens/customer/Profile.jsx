@@ -16,6 +16,7 @@ import { auth } from '../../firebaseconfig';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { Platform } from 'react-native';
 
 function Profile({ navigation }) {
   const [user, setUser] = useState(null);
@@ -48,6 +49,11 @@ function Profile({ navigation }) {
   }, [navigation]);
 
   const pickHeaderImage = async () => {
+    if (Platform.OS === 'web') {
+      Alert.alert('Not supported on web', 'Header image upload is available in the native app only.');
+      return;
+    }
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
